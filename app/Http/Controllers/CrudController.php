@@ -2,8 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
 use App\Models\Crud;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Http;
 
 class CrudController extends Controller
 {
@@ -11,31 +12,32 @@ class CrudController extends Controller
 
         $data = Crud::all();
         return view ('crud', compact('data'));
-        $curl = curl_init("https://discord.com/api/webhooks/1003867953063800892/UGEgLffPSFWvGkUdiSqLYxl_gbHjmX7PR634hIcWyHWCUvt05THSIpmClFJmJ2PF2sr4");
-        curl_setopt($curl, CURLOPT_CUSTOMREQUEST, "POST");
-        curl_setopt($curl, CURLOPT_POSTFIELDS, json_encode($data));
-        curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
-        return curl_exec($curl);
     }
 
     public function Crudtambah(){
         return view('Crudtambah');
-        $curl = curl_init("https://discord.com/api/webhooks/1003913034990899310/6H7VBilYmc-ms3b9_Il7mD_kYbPKvuGCccIv2jp2_dhki963euwiwGw4RC7mAs0bfUwf");
-        curl_setopt($curl, CURLOPT_CUSTOMREQUEST, "POST");
-        curl_setopt($curl, CURLOPT_POSTFIELDS, json_encode($data));
-        curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
-        return curl_exec($curl);
+       
     }
 
     public function crudinsert(Request $request){
         // dd($request->all());
         Crud::create($request->all());
+
+
+        Http::post('https://discord.com/api/webhooks/1003913034990899310/6H7VBilYmc-ms3b9_Il7mD_kYbPKvuGCccIv2jp2_dhki963euwiwGw4RC7mAs0bfUwf', [
+            'content' => "New Product",
+            'embeds' => [
+                [
+                    'title' => "New Product",
+                    'description' => 'Nama Barang : '.$request->namabarang. '<br> Jumlah Barang :' .$request->jumlahbarang,
+                    'color' => '7506394',
+                ]
+            ],
+        ]);
+
+        
         return redirect()->route('cruds')->with('success','Data berhasil ditambahkan');
-        // $curl = curl_init("https://discord.com/api/webhooks/1003867953063800892/UGEgLffPSFWvGkUdiSqLYxl_gbHjmX7PR634hIcWyHWCUvt05THSIpmClFJmJ2PF2sr4");
-        // curl_setopt($curl, CURLOPT_CUSTOMREQUEST, "POST");
-        // curl_setopt($curl, CURLOPT_POSTFIELDS, json_encode($data));
-        // curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
-        // return curl_exec($curl);
+      
 
     }
 
@@ -50,6 +52,16 @@ class CrudController extends Controller
     public function updatedata(Request $request, $id){
         $data = Crud::find($id);
         $data->update($request->all());
+        Http::post('https://discord.com/api/webhooks/1003913034990899310/6H7VBilYmc-ms3b9_Il7mD_kYbPKvuGCccIv2jp2_dhki963euwiwGw4RC7mAs0bfUwf', [
+            'content' => "Product Update",
+            'embeds' => [
+                [
+                    'title' => "Product Update",
+                    'description' => 'Nama Barang : '.$request->namabarang. ' Jumlah Barang : ' .$request->jumlahbarang,
+                    'color' => '7506394',
+                ]
+            ],
+        ]);
         return redirect()->route('cruds')->with('success','Data berhasil ditambahkan');
         
 
@@ -57,11 +69,21 @@ class CrudController extends Controller
 
     public function delete($id){
         $data = Crud::find($id);
+        Http::post('https://discord.com/api/webhooks/1003913034990899310/6H7VBilYmc-ms3b9_Il7mD_kYbPKvuGCccIv2jp2_dhki963euwiwGw4RC7mAs0bfUwf', [
+            'content' => "Data Deleted",
+            'embeds' => [
+                [
+                    'title' => "Data Deleted",
+                    'description' => 'Nama Barang : '.$data->namabarang. ' Telah Di Hapus : ' ,
+                    'color' => '7506394',
+                ]
+            ],
+        ]);
         $data->delete();
         return redirect()->route('cruds')->with('success','Data berhasil ditambahkan');
     }
     
-    public function postToDiscord(Post $post)
+    public function postToDiscord(Request $request, $id)
 {
     $data = array("cruds" => "cruds", "Discord" => "Webhooks");
     $curl = curl_init("https://discord.com/api/webhooks/1003913034990899310/6H7VBilYmc-ms3b9_Il7mD_kYbPKvuGCccIv2jp2_dhki963euwiwGw4RC7mAs0bfUwf");
