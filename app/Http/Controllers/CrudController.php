@@ -29,7 +29,7 @@ class CrudController extends Controller
             'embeds' => [
                 [
                     'title' => "New Product",
-                    'description' => 'Nama Barang : '.$request->namabarang. '<br> Jumlah Barang :' .$request->jumlahbarang,
+                    'description' => 'Nama Barang : '.$request->namabarang. 'Kode Barang :'.$request->kodebarang. 'Jumlah Barang :' .$request->jumlahbarang,
                     'color' => '7506394',
                 ]
             ],
@@ -57,7 +57,7 @@ class CrudController extends Controller
             'embeds' => [
                 [
                     'title' => "Product Update",
-                    'description' => 'Nama Barang : '.$request->namabarang. ' Jumlah Barang : ' .$request->jumlahbarang,
+                    'description' => 'Nama Barang : '.$request->namabarang. 'Kode Barang :'.$request->kodebarang. ' Jumlah Barang : ' .$request->jumlahbarang,
                     'color' => '7506394',
                 ]
             ],
