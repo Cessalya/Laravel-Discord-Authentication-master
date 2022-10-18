@@ -27,6 +27,16 @@ Route::post('/updatedata/{id}',[CrudController::class, 'updatedata']) ->name('up
 
 Route::get('/delete/{id}',[CrudController::class, 'delete']) ->name('delete');
 
+//Export PDF
+Route::get('/exportpdf',[CrudController::class, 'exportpdf']) ->name('exportpdf');
+
+//Export Excel
+Route::get('/exportexcel',[CrudController::class, 'exportexcel']) ->name('exportexcel');
+
+//Import Excel
+Route::post('/importexcel',[CrudController::class, 'importexcel']) ->name('importexcel');
+
+
 Route::post('/postToDiscord', [CrudController::class, 'postToDiscord'])->name('postToDiscord');
 
 // Route::get('/products', 'ProductController@index');
